@@ -59,78 +59,44 @@
         ```bash
         docker compose up
         ```
+2. Enter the docker container
+     ```bash
+     xhost + && docker exec -it ur3e_container bash
+     ```
 
 ### Simulation
 
-2. Run a demonstration on the host machine  
+3. Run a demonstration on the host machine  
 
    - Visualizing the model
         ```bash
-        ./utils/ur3e_rviz.sh
+        ros2 launch ur_description view_ur.launch.py ur_type:=ur3e
         ```
-        <!-- <img src=image/ur3e_rviz.sh.gif height=200> -->
-
    - Executing the moveit
         ```bash
-        ./utils/ur3e_moveit_sim.sh
-        ```
-        <!-- <img src=image/ur3e_moveit_sim.sh.gif height=200> -->
-
-   - Executing a wiggle demonstration
-        ```bash
-        ./utils/ur3e_wiggle_fake.sh
-        ```
-        <!-- <img src=image/ur3e_wiggle.sh.gif height=200> -->
-
-   - Executing a pick-and-place demonstration
-        ```bash
-        ./utils/ur3e_pp_fake.sh
-        ```
-        <!-- <img src=image/ur3e_pp_fake.sh.gif height=200> -->
+        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
+        ```  
+        ```bash  
+        ros2 launch ur3e_tutorials hello_moveit_action.launch.py ur_type:=ur3e
+        ```  
 
 ### Real robot
 
-2. Connect to the robot  
+3. Connect to the robot  
     ```bash
-    xhost + && docker exec -it ur3e_container bash -it -c "roslaunch ur_robot_driver ur3e_bringup.launch robot_ip:=172.32.1.148"
+    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=172.32.1.148 initial_joint_controller:=joint_trajectory_controller launch_rviz:=true
     ```
-3. Run the external control script on the pendant  
+4. Run the external control script on the pendant  
 
-4. Run a demonstration on the host machine  
+5. Run a demonstration on the host machine  
 
    - Executing the moveit
         ```bash
-        ./utils/ur3e_moveit_real.sh
-        ```
-
-   - Executing a wiggle demonstration
-        ```bash
-        ./utils/ur3e_wiggle.sh
-        ```
-
-   - Executing a pick-and-place demonstration
-        ```bash
-        ./utils/ur3e_pp.sh
-        ```
-
-### Manually execute commands
-
-1. Build and run the docker environment
-   - Create and start docker containers in the initially opened terminal
-        ```bash
-        docker compose up
-        ```
-   - Execute the container in another terminal
-        ```bash
-        xhost + && docker exec -it ur3e_container bash
-        ```
-
-2. Run a demonstration in the container  
-    ```bash
-    byobu
-    ```
-    - First command & F2 to create a new window & Second command ...
-    - Ctrl + F6 to close the selected window
+        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
+        ```  
+        ```bash  
+        ros2 launch ur3e_tutorials hello_moveit_action.launch.py ur_type:=ur3e
+        ```  
 
 ## Author / Contributor
 
