@@ -28,7 +28,7 @@ def pick_and_place():
     if use_gripper:
         gripper = robotiq()
         rospy.loginfo("Connect/Reset/Activate a connected gripper.")
-        gripper.connect(ur5e_ip, tool_tcp_port)
+        gripper.connect(ur3e_ip, tool_tcp_port)
         gripper.reset()
         gripper.activate()
         result = gripper.wait_activate_complete()
@@ -98,7 +98,7 @@ def pick_and_place():
 
 if __name__ == '__main__':
     use_gripper = rospy.get_param('/pick_and_place/use_gripper')
-    ur5e_ip = rospy.get_param('/pick_and_place/ur5e_ip')
+    ur3e_ip = rospy.get_param('/pick_and_place/ur3e_ip')
     tool_tcp_port = rospy.get_param('/pick_and_place/tool_tcp_port')
 
     try:
