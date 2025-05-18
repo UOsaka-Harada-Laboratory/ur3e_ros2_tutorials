@@ -48,7 +48,7 @@
         ```
 3. Build the docker environment as below  
     ```bash
-    sudo apt install byobu && git clone git@github.com:UOsaka-Harada-Laboratory/ur3e_ros2_tutorials.git --recursive --depth 1 && cd ur3e_ros2_tutorials && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose build --no-cache --parallel  
+    git clone https://github.com/UOsaka-Harada-Laboratory/ur3e_ros2_tutorials.git --recursive --depth 1 && cd ur3e_ros2_tutorials && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose build --no-cache --parallel  
     ```
 
 ## Usage with docker
