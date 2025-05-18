@@ -1,11 +1,12 @@
-# ur3e_tutorials
+# ur3e_ros2_tutorials
 
 [![support level: community](https://img.shields.io/badge/support%20level-community-lightgray.svg)](http://rosindustrial.org/news/2016/10/7/better-supporting-a-growing-ros-industrial-software-platform)
 [![license: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![repo size](https://img.shields.io/github/repo-size/UOsaka-Harada-Laboratory/ur3e_tutorials)
 
-- ROS2 package for Universal Robots UR3e tutorial.
-    - [ur3e_tutorials_py](/ros2_ws/src/ur3e_tutorials_py): A tutorial package to execute simple demonstrations.
+- ROS2 packages for Universal Robots UR3e tutorial.
+    - [ur3e_tutorials_py](/ros2_ws/src/ur3e_tutorials_py): A tutorial package to execute simple demonstrations with Python.
+    - [ur3e_tutorials_cpp](/ros2_ws/src/ur3e_tutorials_cpp): A tutorial package to execute simple demonstrations with C++.
 - Docker for simulation and control environments for Universal Robots UR3e.
 
 ## Dependencies
@@ -47,7 +48,7 @@
         ```
 3. Build the docker environment as below  
     ```bash
-    sudo apt install byobu && git clone git@github.com:UOsaka-Harada-Laboratory/ur3e_tutorials.git --depth 1 && cd ur3e_tutorials && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose build --no-cache --parallel  
+    sudo apt install byobu && git clone git@github.com:UOsaka-Harada-Laboratory/ur3e_ros2_tutorials.git --recursive --depth 1 && cd ur3e_ros2_tutorials && COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose build --no-cache --parallel  
     ```
 
 ## Usage with docker
