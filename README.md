@@ -81,7 +81,11 @@
         ```  
         ```bash
         ros2 run ur3e_tutorials hello_joint_trajectory_controller
-        ```
+        ```  
+        or  
+        ```bash
+        ros2 launch ur3e_tutorials hello_joint_trajectory_controller.launch.py
+        ```  
 
 ### Real robot
 

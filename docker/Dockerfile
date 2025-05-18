@@ -127,6 +127,8 @@ WORKDIR /root/ros2_ws/src/
 # Moving the robot with a python script, while checking it with rviz
 RUN echo "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true" >> ~/.bash_history
 RUN echo "ros2 run ur3e_tutorials hello_joint_trajectory_controller"
+# or
+RUN echo "ros2 launch ur3e_tutorials hello_joint_trajectory_controller.launch.py" >> ~/.bash_history
 
 # MoveIt GUI
 RUN echo "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true" >> ~/.bash_history
