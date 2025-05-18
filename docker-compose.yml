@@ -6,7 +6,7 @@ services:
             args:
                 MAKEFLAGS: -j4
                 PARALLELWORKERS: 4
-        container_name: ur3e_container
+        container_name: ur3e_humble_container
         environment:
             # to transport X11 application window
             - DISPLAY=$DISPLAY
@@ -21,4 +21,4 @@ services:
         privileged: true
         tty: true
         network_mode: host
-        command: bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --executor sequential --parallel-workers 1 --symlink-install --mixin release && source /root/ros2_ws/install/setup.bash && bash"
+        command: bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --executor parallel --parallel-workers 4 --symlink-install --mixin release && source /root/ros2_ws/install/setup.bash && bash"

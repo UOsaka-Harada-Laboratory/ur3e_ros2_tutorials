@@ -21,7 +21,7 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "hello_moveit_action = ur3e_tutorials.hello_moveit_action:main",
+            "hello_joint_trajectory_controller = ur3e_tutorials.hello_joint_trajectory_controller:main",
         ],
     },
 )

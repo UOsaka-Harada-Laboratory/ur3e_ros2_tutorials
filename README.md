@@ -5,7 +5,7 @@
 ![repo size](https://img.shields.io/github/repo-size/UOsaka-Harada-Laboratory/ur3e_tutorials)
 
 - ROS2 package for Universal Robots ur3e tutorial.
-  - [ur3e_tutorials](/catkin_ws/src/ur3e_tutorials): A tutorial package to execute simple demonstrations.
+    - [ur3e_tutorials](/catkin_ws/src/ur3e_tutorials): A tutorial package to execute simple demonstrations.
 - Docker for simulation and control environments for Universal Robots UR3e.
 
 ## Dependencies
@@ -13,16 +13,16 @@
 ### Docker build environment
 
 - [Ubuntu 22.04 PC](https://ubuntu.com/certified/laptops?q=&limit=20&vendor=Dell&vendor=Lenovo&vendor=HP&release=22.04+LTS)
-  - Docker 27.4.1
-  - Docker Compose 2.32.1
+    - Docker 27.4.1
+    - Docker Compose 2.32.1
 
 ### UR3e with a robotiq gripper
 
 - [Ubuntu 22.04 PC](https://ubuntu.com/certified/laptops?q=&limit=20&vendor=Dell&vendor=Lenovo&vendor=HP&release=22.04+LTS)
-  - [ROS Melodic](https://wiki.ros.org/melodic/Installation/Ubuntu)
-  - [UniversalRobots/Universal_Robots_ROS_Driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver)
-  - [fmauch/universal_robot](https://github.com/fmauch/universal_robot.git)
-  - [Byobu](https://www.byobu.org/)
+    - [ROS Melodic](https://wiki.ros.org/melodic/Installation/Ubuntu)
+    - [UniversalRobots/Universal_Robots_ROS_Driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver)
+    - [fmauch/universal_robot](https://github.com/fmauch/universal_robot.git)
+    - [Byobu](https://www.byobu.org/)
 - [UniversalRobots UR3e](https://www.universal-robots.com/products/ur3-robot/) 
 - [Robotiq Hand-E](https://robotiq.com/products/adaptive-grippers#Hand-E)
 
@@ -55,47 +55,51 @@
 ### Using utility scripts
 
 1. Build and run the docker environment
-   - Create and start docker containers in the initially opened terminal
-        ```bash
-        docker compose up
-        ```
+    ```bash
+    docker compose up
+    ```
 2. Enter the docker container
-     ```bash
-     xhost + && docker exec -it ur3e_container bash
-     ```
+    ```bash
+    xhost + && docker exec -it ur3e_humble_container bash
+    ```
 
 ### Simulation
 
 3. Run a demonstration on the host machine  
 
-   - Visualizing the model
+    - Visualizing the model
         ```bash
         ros2 launch ur_description view_ur.launch.py ur_type:=ur3e
         ```
-   - Executing the moveit
+    - Executing the moveit GUI
         ```bash
         ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
         ```  
-        ```bash  
-        ros2 launch ur3e_tutorials hello_moveit_action.launch.py ur_type:=ur3e
+    - Executing a motion with a Python script and scaled_joint_trajectory_controller
+        ```bash
+        ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true
         ```  
+        ```bash
+        ros2 run ur3e_tutorials hello_joint_trajectory_controller
+        ```
 
 ### Real robot
 
 3. Connect to the robot  
     ```bash
-    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=172.32.1.148 initial_joint_controller:=joint_trajectory_controller launch_rviz:=true
+    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=172.32.1.148 initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true
     ```
 4. Run the external control script on the pendant  
 
 5. Run a demonstration on the host machine  
 
-   - Executing the moveit
+    - Executing the moveit GUI
         ```bash
-        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
+        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=false
         ```  
+    - Executing a motion with a Python script and scaled_joint_trajectory_controller
         ```bash  
-        ros2 launch ur3e_tutorials hello_moveit_action.launch.py ur_type:=ur3e
+        ros2 run ur3e_tutorials hello_joint_trajectory_controller
         ```  
 
 ## Author / Contributor

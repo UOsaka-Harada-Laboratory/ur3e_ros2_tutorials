@@ -6,7 +6,7 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package="ur3e_tutorials",
-            executable="hello_moveit_action",
+            executable="hello_joint_trajectory_controller",
             output="screen",
             parameters=[{"use_sim_time": False}],
         )

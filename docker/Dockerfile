@@ -1,5 +1,5 @@
 # base image
-FROM nvidia/opengl:1.2-glvnd-devel-ubuntu22.04
+FROM ubuntu:22.04
 
 # setting environmental variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -15,9 +15,6 @@ ENV DISPLAY $DISPLAY
 ENV WAYLAND_DISPLAY $WAYLAND_DISPLAY
 ENV XDG_RUNTIME_DIR $XDG_RUNTIME_DIR
 ENV PULSE_SERVER $PULSE_SERVER
-ENV __NV_PRIME_RENDER_OFFLOAD 1
-ENV __GLX_VENDOR_LIBRARY_NAME nvidia
-ENV ROS_DISTRO=humble
 
 # setting time zone
 RUN apt update && apt install -y --no-install-recommends tzdata
@@ -32,10 +29,8 @@ RUN apt update -y && apt upgrade -y && apt install -y --no-install-recommends \
     libcanberra-gtk* \
     build-essential \
     libgl1-mesa-dev \
-    nvidia-settings \
     python3-numpy \
     iputils-ping \
-    nvidia-prime \
     lsb-release \
     libudev-dev \
     imagemagick \
@@ -111,46 +106,30 @@ WORKDIR /root/ros2_ws/src
 RUN git clone https://github.com/ros-simulation/gazebo_ros2_control.git -b humble --recursive && \
     cd gazebo_ros2_control && \
     git reset --hard b49ed0b
-RUN git clone https://github.com/ros-planning/moveit_msgs.git -b humble --recursive && \
-    cd moveit_msgs && \
-    git reset --hard 99e6898
-RUN git clone https://github.com/ros-planning/moveit_resources.git -b humble --recursive && \
-    cd moveit_resources && \
-    git reset --hard 45ea355
 RUN git clone https://github.com/moveit/moveit2.git -b humble --recursive && \
     cd moveit2 && \
     git reset --hard a60ed9f && \
     cd .. && \
     vcs import < moveit2/moveit2.repos
-COPY ./ros2_ws/src/moveit_configs_utils/launches.py /root/ros2_ws/src/moveit2/moveit_configs_utils/moveit_configs_utils/
-RUN git clone https://github.com/ros-planning/moveit_task_constructor.git -b humble --recursive && \
-    cd moveit_task_constructor && \
-    git reset --hard e704159
-RUN git clone https://github.com/ros-planning/srdfdom.git -b ros2 --recursive && \
-    cd srdfdom && \
-    git reset --hard c118b35
 WORKDIR /root/ros2_ws/
 RUN /bin/bash -c "rosdep init && rosdep update && rosdep install -r --from-paths . --ignore-src --rosdistro humble -y"
-
-RUN /bin/bash -c "touch /root/ros2_ws/src/moveit2/COLCON_IGNORE"
-RUN /bin/bash -c "touch /root/ros2_ws/src/moveit2/moveit_ros/robot_interaction/COLCON_IGNORE"
-RUN /bin/bash -c "touch /root/ros2_ws/src/moveit2/moveit_ros/hybrid_planning/COLCON_IGNORE"
-WORKDIR /root/ros2_ws/
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build --executor parallel --parallel-workers $PARALLELWORKERS --symlink-install --mixin release"
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rm /root/ros2_ws/src/moveit2/COLCON_IGNORE && colcon build --executor sequential --symlink-install --mixin release"
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rm /root/ros2_ws/src/moveit2/moveit_ros/hybrid_planning/COLCON_IGNORE && colcon build --executor parallel --parallel-workers $PARALLELWORKERS --symlink-install --mixin release"
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rm /root/ros2_ws/src/moveit2/moveit_ros/robot_interaction/COLCON_IGNORE && colcon build --executor parallel --parallel-workers $PARALLELWORKERS --symlink-install --mixin release"
 
 # building ros2 packages
 WORKDIR /root/ros2_ws/
 RUN git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver.git src/Universal_Robots_ROS2_Driver -b humble && \
     cd src/Universal_Robots_ROS2_Driver && git reset --hard 5dfed5d && \
     cd ../../ && vcs import src --skip-existing --input src/Universal_Robots_ROS2_Driver/Universal_Robots_ROS2_Driver-not-released.humble.repos
-RUN rosdep update && rosdep install --ignore-src --from-paths src -y --rosdistro=$ROS_DISTRO
-COPY ./ur_moveit_config/config/joint_limits.yaml /root/ros2_ws/src/Universal_Robots_ROS2_Driver/ur_moveit_config/config/joint_limits.yaml  
+RUN /bin/bash -c "rosdep update && rosdep install -r --from-paths . --ignore-src --rosdistro humble -y" 
 
 # Generates bash commands
 WORKDIR /root/ros2_ws/src/
-RUN echo "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=yyy.yyy.yyy.yyy initial_joint_controller:=joint_trajectory_controller use_fake_hardware:=true launch_rviz:=true" >> ~/.bash_history
+
+# Moving the robot with a python script, while checking it with rviz
+RUN echo "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true" >> ~/.bash_history
+RUN echo "ros2 run ur3e_tutorials hello_joint_trajectory_controller"
+
+# MoveIt GUI
 RUN echo "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true" >> ~/.bash_history
+
+# Visualizing the robot model
 RUN echo "ros2 launch ur_description view_ur.launch.py ur_type:=ur3e" >> ~/.bash_history
