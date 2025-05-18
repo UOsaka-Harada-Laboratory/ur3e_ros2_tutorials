@@ -1,7 +1,7 @@
 import glob
 from setuptools import setup
 
-package_name = "ur3e_tutorials"
+package_name = "ur3e_tutorials_py"
 
 setup(
     name=package_name,
@@ -16,12 +16,12 @@ setup(
     zip_safe=True,
     maintainer="takuya-ki",
     maintainer_email="taku8926@gmail.com",
-    description="Demo for using MoveIt Python API.",
+    description="Example Python scripts for UR3e ROS2 Driver.",
     license="Apache-2.0",
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "hello_joint_trajectory_controller = ur3e_tutorials.hello_joint_trajectory_controller:main",
+            "hello_joint_trajectory_controller = ur3e_tutorials_py.hello_joint_trajectory_controller:main",
         ],
     },
 )

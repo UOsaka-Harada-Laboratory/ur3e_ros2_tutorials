@@ -124,11 +124,18 @@ RUN /bin/bash -c "rosdep update && rosdep install -r --from-paths . --ignore-src
 # Generates bash commands
 WORKDIR /root/ros2_ws/src/
 
-# Moving the robot with a python script, while checking it with rviz
+# Moving the robot with a python script, while checking it with rviz (Python)
 RUN echo "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true" >> ~/.bash_history
-RUN echo "ros2 run ur3e_tutorials hello_joint_trajectory_controller"
+RUN echo "ros2 run ur3e_tutorials_py hello_joint_trajectory_controller"
 # or
-RUN echo "ros2 launch ur3e_tutorials hello_joint_trajectory_controller.launch.py" >> ~/.bash_history
+RUN echo "ros2 launch ur3e_tutorials_py hello_joint_trajectory_controller.launch.py" >> ~/.bash_history
+
+# Moving the robot with a cpp program and MoveIt (C++)
+RUN echo "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=false" >> ~/.bash_history
+RUN echo "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true" >> ~/.bash_history
+RUN echo "ros2 run ur3e_tutorials_cpp hello_moveit"
+# or
+RUN echo "ros2 launch ur3e_tutorials_cpp hello_moveit.launch.py" >> ~/.bash_history
 
 # MoveIt GUI
 RUN echo "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true" >> ~/.bash_history

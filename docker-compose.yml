@@ -17,7 +17,8 @@ services:
             # to tansport X11 application (require xhost local:)
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             # ros catkin dir
-            - ./ros2_ws/src/ur3e_tutorials:/root/ros2_ws/src/ur3e_tutorials
+            - ./ros2_ws/src/ur3e_tutorials_py:/root/ros2_ws/src/ur3e_tutorials_py
+            - ./ros2_ws/src/ur3e_tutorials_cpp:/root/ros2_ws/src/ur3e_tutorials_cpp
         privileged: true
         tty: true
         network_mode: host

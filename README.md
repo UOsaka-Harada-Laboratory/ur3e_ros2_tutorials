@@ -4,8 +4,8 @@
 [![license: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![repo size](https://img.shields.io/github/repo-size/UOsaka-Harada-Laboratory/ur3e_tutorials)
 
-- ROS2 package for Universal Robots ur3e tutorial.
-    - [ur3e_tutorials](/catkin_ws/src/ur3e_tutorials): A tutorial package to execute simple demonstrations.
+- ROS2 package for Universal Robots UR3e tutorial.
+    - [ur3e_tutorials_py](/ros2_ws/src/ur3e_tutorials_py): A tutorial package to execute simple demonstrations.
 - Docker for simulation and control environments for Universal Robots UR3e.
 
 ## Dependencies
@@ -80,11 +80,25 @@
         ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true
         ```  
         ```bash
-        ros2 run ur3e_tutorials hello_joint_trajectory_controller
+        ros2 run ur3e_tutorials_py hello_joint_trajectory_controller
         ```  
         or  
         ```bash
-        ros2 launch ur3e_tutorials hello_joint_trajectory_controller.launch.py
+        ros2 launch ur3e_tutorials_py hello_joint_trajectory_controller.launch.py
+        ```  
+    - Executing a motion with a C++ program and MoveIt
+        ```bash
+        ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=false
+        ```  
+        ```bash
+        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
+        ```  
+        ```bash
+        ros2 run ur3e_tutorials_cpp hello_moveit
+        ```  
+        or  
+        ```bash
+        ros2 launch ur3e_tutorials_cpp hello_moveit.launch.py
         ```  
 
 ### Real robot
@@ -103,7 +117,14 @@
         ```  
     - Executing a motion with a Python script and scaled_joint_trajectory_controller
         ```bash  
-        ros2 run ur3e_tutorials hello_joint_trajectory_controller
+        ros2 run ur3e_tutorials_py hello_joint_trajectory_controller
+        ```  
+    - Executing a motion with a C++ program and MoveIt
+        ```bash
+        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=false
+        ```  
+        ```bash  
+        ros2 run ur3e_tutorials_cpp hello_moveit
         ```  
 
 ## Author / Contributor
