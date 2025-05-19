@@ -25,10 +25,10 @@ def generate_launch_description():
     )
 
     run_hello_node = TimerAction(
-        period=5.0,
+        period=10.0,
         actions=[
             Node(
-                package="ur3e_tutorials",
+                package="ur3e_tutorials_py",
                 executable="hello_joint_trajectory_controller",
                 output="screen",
                 parameters=[{"use_sim_time": False}],
