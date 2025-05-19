@@ -16,9 +16,12 @@ int main(int argc, char* argv[])
     // Create the MoveIt MoveGroup Interface
     using moveit::planning_interface::MoveGroupInterface;
     auto move_group_interface = MoveGroupInterface(node, "ur_manipulator");
+    move_group_interface.setPlannerId("RRTConnectkConfigDefault");
     move_group_interface.setPoseReferenceFrame("base_link");
     move_group_interface.setStartStateToCurrentState();
     move_group_interface.setGoalTolerance(0.01);
+    move_group_interface.setPlanningTime(10.0);
+    move_group_interface.setNumPlanningAttempts(100);
 
     // Set a target Pose
     auto const target_pose = [] {

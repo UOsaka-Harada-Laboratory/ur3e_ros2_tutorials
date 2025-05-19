@@ -25,7 +25,7 @@ def generate_launch_description():
     )
 
     run_hello_node = TimerAction(
-        period=10.0,
+        period=5.0,
         actions=[
             Node(
                 package="ur3e_tutorials_py",

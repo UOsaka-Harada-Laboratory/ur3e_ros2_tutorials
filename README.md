@@ -41,10 +41,10 @@
 1. Connect an Ethernet cable between the host computer and the Ethernet port of UR3e's controller
 2. Set the network configuration as below  
     <img src=image/network.png width=280>  
-    - The ros node expects to reach the robot at the IP `172.32.1.148`. You can change the IP with pendant  
+    - The ros node expects to reach the robot at the IP `10.0.2.2`. You can change the IP with pendant  
     - This IP is set to the `robot_ip` argument as below  
         ```bash
-        roslaunch ur_robot_driver ur3e_bringup.launch robot_ip:=172.32.1.148
+        ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=10.0.2.2 launch_rviz:=false
         ```
 3. Build the docker environment as below  
     ```bash
@@ -72,10 +72,17 @@
         ```bash
         ros2 launch ur_description view_ur.launch.py ur_type:=ur3e
         ```
+        <img src=image/rviz.gif width=680>  
+
     - Executing the moveit GUI
+        ```bash
+        ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true launch_rviz:=false
+        ```  
         ```bash
         ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
         ```  
+        <img src=image/moveit_gui_sim.gif width=680>  
+
     - Executing a motion with a Python script and scaled_joint_trajectory_controller
         ```bash
         ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true
@@ -87,6 +94,8 @@
         ```bash
         ros2 launch ur3e_tutorials_py hello_joint_trajectory_controller.launch.py
         ```  
+        <img src=image/ctrl_py_sim.gif width=680>  
+
     - Executing a motion with a C++ program and MoveIt
         ```bash
         ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=127.0.0.1 use_fake_hardware:=true initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=false
@@ -101,12 +110,13 @@
         ```bash
         ros2 launch ur3e_tutorials_cpp hello_moveit.launch.py
         ```  
+        <img src=image/moveit_cpp_sim.gif width=680>  
 
 ### Real robot
 
 3. Connect to the robot  
     ```bash
-    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=172.32.1.148 initial_joint_controller:=scaled_joint_trajectory_controller launch_rviz:=true
+    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=10.0.2.2 launch_rviz:=false
     ```
 4. Run the external control script on the pendant  
 
@@ -114,18 +124,7 @@
 
     - Executing the moveit GUI
         ```bash
-        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=false
-        ```  
-    - Executing a motion with a Python script and scaled_joint_trajectory_controller
-        ```bash  
-        ros2 run ur3e_tutorials_py hello_joint_trajectory_controller
-        ```  
-    - Executing a motion with a C++ program and MoveIt
-        ```bash
-        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=false
-        ```  
-        ```bash  
-        ros2 run ur3e_tutorials_cpp hello_moveit
+        ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e launch_rviz:=true
         ```  
 
 ## Author / Contributor
